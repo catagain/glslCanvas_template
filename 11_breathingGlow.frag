@@ -79,7 +79,7 @@ void main() {
     float weight = smoothstep(-2.100, 0.000, uv.y); //noise position
     float m_noise = noise(uv_flip*30.000)*-0.188*weight;
 
-    float line = diamond(uv, 0.8);
+    float line = diamond(uv_flip, 0.8);
 
     float moon_dist = abs(sdMoon(uv*2.372, -0.096-breathing*0.168, 1.315, 1.148-abs(breathing*0.052))+m_noise);
     //動態呼吸
