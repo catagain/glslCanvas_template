@@ -95,10 +95,10 @@ void main() {
     for(int index=0;index<6;++index){ 
         //model
         vec2 uv_flip= vec2(uv.x,-uv.y);
-        float weight=smoothstep(0.220,0.124,uv.y);
-            float freq=9.0+float(index)*-1.464;
-        float noise=gnoise(uv_flip*freq)*0.134*weight;
-        float diamond=abs(diamond(uv_flip,0.808)+noise);
+        weight=smoothstep(0.220,0.124,uv.y);
+        float freq=9.0+float(index)*-1.464;
+        float k_noise=gnoise(uv_flip*freq)*0.134*weight;
+        float diamond=abs(diamond(uv_flip,0.808)+k_noise);
 
         
         //動態呼吸
