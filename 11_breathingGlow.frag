@@ -50,6 +50,13 @@ float fbm(vec2 x) {
 	}
 	return v;
 }
+
+float diamond(vec2 P, float size) {
+   float x = M_SQRT_2/2.0 * (P.x - P.y);
+   float y = M_SQRT_2/2.0 * (P.x + P.y);
+   return max(abs(x), abs(y)) - size/(2.0*M_SQRT_2);
+}
+
 void main() {
     vec2 uv = gl_FragCoord.xy/u_resolution.xy;
     uv.x *= u_resolution.x/u_resolution.y;
@@ -72,7 +79,7 @@ void main() {
     float weight = smoothstep(-2.100, 0.000, uv.y); //noise position
     float m_noise = noise(uv_flip*30.000)*-0.188*weight;
 
-    float line = length(uv);
+    float line = diamond(uv, 0.8);
 
     float moon_dist = abs(sdMoon(uv*2.372, -0.096-breathing*0.168, 1.315, 1.148-abs(breathing*0.052))+m_noise);
     //動態呼吸
@@ -82,7 +89,8 @@ void main() {
     float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
     float thickness=(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
     float glow_circle = glow(moon_dist, strength, thickness);
-    gl_FragColor = vec4(vec3(glow_circle+fog)*vec3(1.000,0.678,0.872),1.0);
+    float glow_lines = glow(line, strength, thickness);
+    gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
 }
 
 
