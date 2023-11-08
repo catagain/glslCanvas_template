@@ -52,9 +52,9 @@ float fbm(vec2 x) {
 }
 
 float diamond(vec2 P, float size) {
-   float x = M_SQRT_2/2.0 * (P.x - P.y);
-   float y = M_SQRT_2/2.0 * (P.x + P.y);
-   return max(abs(x), abs(y)) - size/(2.0*M_SQRT_2);
+   float x = 1.41421356237/2.0 * (P.x - P.y);
+   float y = 1.41421356237/2.0 * (P.x + P.y);
+   return max(abs(x), abs(y)) - size/(2.0*1.41421356237);
 }
 
 void main() {
