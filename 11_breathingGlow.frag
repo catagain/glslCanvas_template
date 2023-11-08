@@ -12,6 +12,13 @@ float glow(float d, float str, float thickness){
     return thickness / pow(d, str);
 }
 
+float diamond(vec2 P, float size)
+{
+   float x = M_SQRT_2/2.0 * (P.x - P.y);
+   float y = M_SQRT_2/2.0 * (P.x + P.y);
+   return max(abs(x), abs(y)) - size/(2.0*M_SQRT_2);
+}
+
 float sdMoon(vec2 p, float d, float ra, float rb )
 {
     p.y = abs(p.y);
@@ -72,7 +79,7 @@ void main() {
     float weight = smoothstep(-2.100, 0.000, uv.y); //noise position
     float m_noise = noise(uv_flip*30.000)*-0.188*weight;
 
-    float line = length(uv);
+    float line = abs(diamond(uv_flip,0.808)+noise);
 
     float moon_dist = abs(sdMoon(uv*2.372, -0.096-breathing*0.168, 1.315, 1.148-abs(breathing*0.052))+m_noise);
     //動態呼吸
