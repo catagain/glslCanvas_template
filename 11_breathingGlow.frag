@@ -53,7 +53,7 @@ float fbm(vec2 x) {
 void main() {
     vec2 uv = gl_FragCoord.xy/u_resolution.xy;
     uv.x *= u_resolution.x/u_resolution.y;
-    uv= uv*2.0-1.0;
+    uv= uv*2.0;
     
     float pi=3.14159;
     float theta = 2.0*pi*u_time/8.0;
