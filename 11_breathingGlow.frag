@@ -91,6 +91,7 @@ void main() {
     //float glow_circle = glow(moon_dist, strength, thickness);
     float glow_circle = glow(glow_circle, strength, thickness);
 
+    float result = 0;
     for(int index=0;index<6;++index){ 
         //model
         vec2 uv_flip= vec2(uv.x,-uv.y);
