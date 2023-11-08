@@ -81,7 +81,8 @@ void main() {
     //float strength =(0.2*breathing*dir+0.180);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
     float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
     float thickness=(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
-    float glow_circle = glow(moon_dist, strength, thickness);
+    //float glow_circle = glow(moon_dist, strength, thickness);
+    float glow_circle = glow(line, strength, thickness);
     gl_FragColor = vec4(vec3(glow_circle+fog)*vec3(1.000,0.678,0.872),1.0);
 }
 
