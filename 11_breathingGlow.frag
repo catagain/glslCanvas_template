@@ -79,7 +79,7 @@ void main() {
     float weight = smoothstep(-2.100, 0.000, uv.y); //noise position
     float m_noise = noise(uv_flip*30.000)*-0.188*weight;
 
-    float line = diamond(uv_flip,0.808);
+
 
     float moon_dist = abs(sdMoon(uv*2.372, -0.096-breathing*0.168, 1.315, 1.148-abs(breathing*0.052))+m_noise);
     //動態呼吸
@@ -89,7 +89,26 @@ void main() {
     float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
     float thickness=(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
     //float glow_circle = glow(moon_dist, strength, thickness);
-    float glow_circle = glow(line, strength, thickness);
+    float glow_circle = glow(glow_circle, strength, thickness);
+
+    for(int index=0;index<6;++index){ 
+        //model
+        vec2 uv_flip= vec2(uv.x,-uv.y);
+        float weight=smoothstep(0.220,0.124,uv.y);
+            float freq=9.0+float(index)*-1.464;
+        float noise=gnoise(uv_flip*freq)*0.134*weight;
+        float diamond=abs(diamond(uv_flip,0.808)+noise);
+
+        
+        //動態呼吸
+        float breathing=sin(2.0*u_time/5.0*pi)*0.5+0.144;                     //option1
+        //float breathing=(exp(sin(u_time/2.0*pi)) - 0.36787944)*0.42545906412;         //option2 錯誤
+        //float breathing=(exp(sin(u_time/2.0*pi)) - 0.36787944)*0.42545906412;                //option2 正確
+        float strength =(0.2*breathing+0.332);          //[0.2~0.3]         //光暈強度加上動態時間營造呼吸感
+        float thickness=(0.1);          //[0.1~0.2]         //光環厚度 營造呼吸感
+        float glow_circle = glow(diamond, strength, thickness);
+        result+=glow_circle;
+    }
     gl_FragColor = vec4(vec3(glow_circle+fog)*vec3(1.000,0.678,0.872),1.0);
 }
 
