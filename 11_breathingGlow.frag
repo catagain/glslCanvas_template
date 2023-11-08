@@ -54,7 +54,7 @@ float fbm(vec2 x) {
 float diamond(vec2 P, float size) {
    float x = 1.41421356237/2.0 * (P.x - P.y);
    float y = 1.41421356237/2.0 * (P.x + P.y);
-   return max(abs(x), abs(y)) - size/(2.0*1.41421356237);
+   return min(abs(x), abs(y)) - size/(2.0*1.41421356237);
 }
 
 void main() {
@@ -90,8 +90,8 @@ void main() {
     float thickness=(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
     float glow_circle = glow(moon_dist, strength, thickness);
     float glow_lines = glow(lines, strength, thickness);
-    //gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
-    gl_FragColor = vec4((vec3(glow_circle)+fog)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
+    gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
+    //gl_FragColor = vec4((vec3(glow_circle)+fog)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
 }
 
 
