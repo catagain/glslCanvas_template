@@ -51,6 +51,17 @@ float fbm(vec2 x) {
 	return v;
 }
 
+float fbm2(in vec2 uv)       //亂數範圍 [-1,1]
+{
+    float f;                                                //fbm - fractal noise (4 octaves)
+    mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+    f   = 0.5000*gnoise( uv ); uv = m*uv;          
+    f += 0.2500*gnoise( uv ); uv = m*uv;
+    f += 0.1250*gnoise( uv ); uv = m*uv;
+    f += 0.0625*gnoise( uv ); uv = m*uv;
+    return f;
+}
+
 float diamond(vec2 P, float size) {
    float x = 1.41421356237/2.0 * (P.x - P.y);
    float y = 1.41421356237/2.0 * (P.x + P.y);
@@ -68,7 +79,7 @@ void main() {
     float dir = dot(point, uv)+0.55;
     
     float fog = fbm(0.4*uv+vec2(-0.1*u_time, -0.02*u_time))*0.6+0.1;
-
+    float fog2 = fbm2(0.4*uv+vec2(-0.1*u_time, -0.02*u_time))*0.6+0.1;
     
 	float breathing=(exp(sin(u_time/3.0*pi)) - 0.36787944)*0.42545906412; 
     //定義圓環
@@ -87,11 +98,11 @@ void main() {
      			//option2 正確
     //float strength =(0.2*breathing*dir+0.180);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
     float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
-    float thickness=0.9//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
+    float thickness=0.1//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
     float glow_circle = glow(moon_dist, strength, thickness);
     float glow_lines = glow(lines, strength, thickness);
     gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
-    //gl_FragColor = vec4((vec3(glow_circle)+fog)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
+    //gl_FragColor = vec4((vec3(glow_circle)+fog2)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
 }
 
 
