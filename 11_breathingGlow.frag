@@ -138,6 +138,13 @@ void main() {
     }else if(abs(mouse.x+2.0)<0.2 && abs(mouse.y) < 0.2){
         lines = abs(diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.15,-0.850), 0.8));
         float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
+    	float thickness=floor(abs(sin(u_time*20.0))+0.5)*0.01;//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
+    	float glow_circle = glow(moon_dist, strength, thickness);
+    	float glow_lines = glow(lines, strength, thickness);
+        gl_FragColor = vec4(vec3(glow_lines+fog*0.5)*vec3(1.000,0.678,0.872),1.0);
+    }else if(abs(mouse.x+2.0)<0.5 && abs(mouse.y) < 0.5){
+        lines = abs(diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.15,-0.850), 0.8)-0.05);
+        float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
     	float thickness=floor(abs(sin(u_time*10.0))+0.5)*0.01;//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
     	float glow_circle = glow(moon_dist, strength, thickness);
     	float glow_lines = glow(lines, strength, thickness);
