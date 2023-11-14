@@ -12,6 +12,13 @@ float glow(float d, float str, float thickness){
     return thickness / pow(d, str);
 }
 
+float mouseEffect(vec2 uv, vec2 mouse, float size)
+{
+    float dist=length(uv-mouse);
+    return 1.2-smoothstep(size*1.9, size, dist);  //size
+    //return pow(dist, 0.5);
+}
+
 float sdMoon(vec2 p, float d, float ra, float rb )
 {
     p.y = abs(p.y);
@@ -112,18 +119,37 @@ void main() {
     float m_noise = noise(uv_flip*30.000)*-0.188*weight;
 
     //float lines = diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412  - breathing*2.0, 0.8);
-	float lines = diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.15,-0.850), 0.8);
+	float lines = abs(diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.15,-0.850), 0.8) - 0.1);
     float moon_dist = abs(sdMoon(uv*2.372, -0.096-breathing*0.168, 1.315, 1.148-abs(breathing*0.052))+m_noise);
     //動態呼吸
     float line_dist = abs(lines + m_noise);
     //float breathing=sin(u_time*2.0*pi/4.0)*0.5+0.5;						//option1
      			//option2 正確
     //float strength =(0.2*breathing*dir+0.180);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
-    float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
-    float thickness=0.1;//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
-    float glow_circle = glow(moon_dist, strength, thickness);
-    float glow_lines = glow(lines, strength, thickness);
-    gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
+    
+    
+    if(abs(mouse.x+2.0) < 0.05 && abs(mouse.y) < 0.05){
+        lines = abs(diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.15,-0.850), 0.8) +0.15);
+        float strength =0.45;//(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
+    	float thickness=0.1;//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
+    	float glow_circle = glow(moon_dist, strength, thickness);
+    	float glow_lines = glow(lines, strength, thickness);
+        gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
+    }else if(abs(mouse.x+2.0)<0.2 && abs(mouse.y) < 0.2){
+        lines = abs(diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.15,-0.850), 0.8));
+        float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
+    	float thickness=floor(abs(sin(u_time*10.0))+0.5)*0.01;//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
+    	float glow_circle = glow(moon_dist, strength, thickness);
+    	float glow_lines = glow(lines, strength, thickness);
+        gl_FragColor = vec4(vec3(glow_lines+fog*0.5)*vec3(1.000,0.678,0.872),1.0);
+    }else {
+        float strength =(0.2*breathing+0.300);			//[0.2~0.3]			//光暈強度加上動態時間營造呼吸感
+    	float thickness = floor(abs(sin(u_time*5.0))+0.5)*0.01;//(0.060);			//[0.1~0.2]			//光環厚度 營造呼吸感
+    	float glow_circle = glow(moon_dist, strength, thickness);
+    	float glow_lines = glow(lines, strength, thickness);
+        gl_FragColor = vec4(vec3(glow_lines+fog*0.0)*vec3(1.000,0.678,0.872),1.0);
+    }
+    
     //gl_FragColor = vec4((vec3(glow_circle)+fog)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
 }
 
