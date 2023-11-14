@@ -112,7 +112,7 @@ void main() {
     float m_noise = noise(uv_flip*30.000)*-0.188*weight;
 
     //float lines = diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412  - breathing*2.0, 0.8);
-	float lines = diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.5,-0.85), 0.8);
+	float lines = diamond(uv_flip +(exp(sin(1.0)) - 0.36787944)*0.42545906412 + mouse + vec2(1.2,-0.7), 0.8);
     float moon_dist = abs(sdMoon(uv*2.372, -0.096-breathing*0.168, 1.315, 1.148-abs(breathing*0.052))+m_noise);
     //動態呼吸
     float line_dist = abs(lines + m_noise);
