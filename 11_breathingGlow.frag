@@ -102,7 +102,7 @@ void main() {
     float glow_circle = glow(moon_dist, strength, thickness);
     float glow_lines = glow(lines, strength, thickness);
     gl_FragColor = vec4(vec3(glow_lines+fog)*vec3(1.000,0.678,0.872),1.0);
-    //gl_FragColor = vec4((vec3(glow_circle)+fog2)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
+    //gl_FragColor = vec4((vec3(glow_circle)+fog)*dir*vec3(0.910,0.876,0.849)*0.144,1.0);
 }
 
 
